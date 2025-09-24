@@ -1,0 +1,50 @@
+services:
+  verdaccio:
+    build:
+      context: src
+      args:
+        VERDACCIO_VERSION: 6.1
+    init: true
+    environment:
+      DEBUG: verdaccio:*
+      AWS_S3_BUCKET: default
+      AWS_DEFAULT_REGION: eu-west-2
+      AWS_S3_ENDPOINT: http://minio:9000/
+      AWS_S3_PATH_STYLE: 'true'
+      AWS_ACCESS_KEY_ID: minio
+      AWS_SECRET_ACCESS_KEY: minio123
+    volumes:
+      - ${LOCAL_WORKSPACE_FOLDER:-.}/src/config.yaml:/verdaccio/conf/config.yaml
+    ports:
+      - 4873:4873
+    depends_on:
+      - minio
+
+  minio:
+    image: quay.io/minio/minio:${VERSION:-latest}
+    init: true
+    command: server /data --console-address ':9001'
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    ports:
+      - 9001:9001
+    volumes:
+      - ${LOCAL_WORKSPACE_FOLDER:-.}/data/minio:/data
+  # https://stackoverflow.com/questions/76401435/why-i-cant-get-access-to-minio-console-from-docker-container
+  minio-setup:
+    image: minio/mc
+    init: true
+    environment:
+      MC_HOST_minio: http://minio:minio123@minio:9000
+    entrypoint:
+      - sh
+      - -c
+      - |
+        until mc ls minio > /dev/null 2>&1; do
+          sleep 0.5
+        done
+
+        mc mb minio/default
+        #mc anonymous set download minio/default/public
+        #mc anonymous links minio/default --recursive

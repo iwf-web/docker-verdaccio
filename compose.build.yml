@@ -1,0 +1,9 @@
+services:
+  verdaccio:
+    build:
+      context: src
+      ssh:
+        - default
+      platforms:
+        - linux/amd64
+        - linux/arm64
