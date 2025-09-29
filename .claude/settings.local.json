@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(./bin/build-ci.sh:*)"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}
