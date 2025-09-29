@@ -109,9 +109,16 @@ if $_DEBUG; then
 fi
 
 if [[ "${CI:-false}" != "true" ]] && [[ "${USER:-}" != "jenkins" ]]; then
-  echo "Not Running in CI mode (Jenkins), cannot run build script!"
+  echo "Not Running in CI mode (Jenkins), simulating environment!"
+  CI=true
+  USER=jenkins
+  GIT_URL=$(git config --get remote.origin.url)
+  GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) # e.g.: main, feature/build
+  GIT_COMMIT=$(git rev-parse HEAD) # e.g.: ace9a2b39eef5cd7f108d96fb3e3d49b49f0d6a7
+  BUILD_NUMBER=local-1
+else
+  echo "Running in CI mode (Jenkins)"
 fi
-echo "Running in CI mode (Jenkins)"
 
 _DOCKER_NAMESPACE=iwfwebsolutions
 # Extract repository name from git url (ignoring docker- prefix) (e.g.: git@git:iwf-web/docker-verdaccio.git -> verdaccio) (https://serverfault.com/a/417243/955565)
@@ -173,7 +180,8 @@ _COMMON_BUILD_ARGS=(
 
 # Initialize SSH Agent
 eval "$(ssh-agent -s)"
-ssh-add -l > /dev/null || ssh-add
+# Ignore if it fails (e.g.: no key available)
+ssh-add -l > /dev/null || ssh-add || true
 
 # Extend build arguments with project specific arguments
 _BUILD_ARGS=(
@@ -208,14 +216,17 @@ if $_VERBOSE || $_DEBUG; then
   echo "Build Args: ${_CLEAN_BUILD_ARGS[*]}"
 fi
 
-# TODO: Make push dynamic
+# https://stackoverflow.com/questions/7577052/unbound-variable-error-in-bash-when-expanding-empty-array
+_ARGS=()
+[ $_PUSH == 'true' ] && _ARGS+=('--push')
+
 docker buildx build \
   "${_BUILD_ARGS[@]}" \
   "${_TAGS[@]}" \
   --platform=linux/amd64,linux/arm64 \
   --no-cache \
   --pull \
-  --push \
+  ${_ARGS[@]+"${_ARGS[@]}"} \
   "$SCRIPT_DIR/../src"
 
 # TODO: Explore bake with compose.build.yml
