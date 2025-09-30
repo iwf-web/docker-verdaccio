@@ -115,6 +115,15 @@ This setup uses GitLab authentication against `https://git.iwf.io`. Users can au
 - **Development**: Uses MinIO (S3-compatible) running locally
 - **Production**: Configured for AWS S3 storage with environment variables
 
+## Running the tests
+
+### Code style
+
+```bash
+brew install hadolint
+hadolint src/Dockerfile
+```
+
 ## Built With
 
 - [Verdaccio](https://verdaccio.org/) - Private npm proxy registry

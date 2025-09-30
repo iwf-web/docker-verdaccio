@@ -1,10 +1,10 @@
 # https://verdaccio.org/docs/docker/#creating-your-own-dockerfile-using-verdaccioverdacciotag-as-base
 # https://github.com/verdaccio/verdaccio/tree/master/docker-examples/v6/plugins/docker-build-install-plugin
 
-ARG VERDACCIO_VERSION
+ARG VERDACCIO_VERSION=6
 
 # Docker multi-stage build - https://docs.docker.com/develop/develop-images/multistage-build/
-FROM node AS builder
+FROM node:24 AS builder
 
 # npm docs
 # --install-strategy https://docs.npmjs.com/cli/v11/commands/npm-install#install-strategy
@@ -13,11 +13,11 @@ WORKDIR /verdaccio/plugins
 RUN set -eux \
   && npm install --global npm@latest \
   && npm install --install-strategy=shallow --omit=optional \
-      verdaccio-gitlab \
-      verdaccio-aws-s3-storage
+      verdaccio-gitlab@3 \
+      verdaccio-aws-s3-storage@10
 
 # The final built image will be based on the standard Verdaccio docker image.
-FROM verdaccio/verdaccio:${VERDACCIO_VERSION:-latest}
+FROM verdaccio/verdaccio:$VERDACCIO_VERSION
 
 COPY config.yaml /verdaccio/conf/config.yaml
 
