@@ -23,7 +23,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          echo "::set-output name=repository::$(echo "${{ vars.IMAGE_NAME }}" | tr '[A-Z]' '[a-z]')"
+          echo "repository=$(echo "${{ vars.IMAGE_NAME }}" | tr '[A-Z]' '[a-z]')" >> $GITHUB_OUTPUT
 
       - uses: peter-evans/dockerhub-description@v5
         if: ${{ !env.ACT && vars.DOCKERHUB_USERNAME != '' && env.dockerhub_token != '' }}
