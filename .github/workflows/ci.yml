@@ -66,8 +66,10 @@ jobs:
           file: src/Dockerfile
           platforms: linux/amd64,linux/arm64 # same as base image
           push: ${{ github.event_name != 'pull_request' && vars.DOCKERHUB_USERNAME != '' && env.dockerhub_token != '' }}
+          sbom: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
