@@ -17,8 +17,24 @@ on:
   workflow_dispatch:
 
 jobs:
+  #matrix-build:
+  #  name: Generate job matrix
+  #  runs-on: ubuntu-latest
+  #  outputs:
+  #    matrix: ${{ steps.set-matrix.outputs.matrix }}
+  #  steps:
+  #    - uses: iwf-web/docker-base-image-version-ci-matrix-action@v1
+  #      id: set-matrix
+  #      with:
+  #        base-image: verdaccio/verdaccio
+  #    - id: set-matrix
+  #      run: echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
+
   build:
+    #needs: matrix-build
     runs-on: ubuntu-latest
+    #strategy:
+    #  matrix: ${{ fromJSON(needs.matrix-build.outputs.matrix) }}
 
     env:
       dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -31,6 +47,8 @@ jobs:
       id-token: write
 
     steps:
+      #- run: echo "Matrix - Project ${{ matrix.project }}, Config ${{ matrix.config }}"
+
       - uses: actions/checkout@v5
 
       # Install the cosign tool except on PR

@@ -227,6 +227,8 @@ docker buildx build \
   --no-cache \
   --pull \
   ${_ARGS[@]+"${_ARGS[@]}"} \
+  --provenance=mode=max \
+  --sbom=true \
   "$SCRIPT_DIR/../src"
 
 # TODO: Explore bake with compose.build.yml
