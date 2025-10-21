@@ -11,10 +11,12 @@ permissions:
 
 jobs:
   stale:
+    name: Mark stale issues and PRs
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/stale@v10
+      - name: Mark stale issues and PRs
+        uses: actions/stale@v10
         with:
           stale-issue-message: "Stale issue"
           stale-pr-message: "Stale pull request"

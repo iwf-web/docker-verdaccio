@@ -11,6 +11,7 @@ on:
 
 jobs:
   dockerHubDescription:
+    name: Update Docker Hub Description
     runs-on: ubuntu-latest
     # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#example-using-secrets
 
@@ -18,14 +19,16 @@ jobs:
       dockerhub_user_token: ${{ secrets.DOCKERHUB_USER_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
 
       - name: Prepare
         id: prep
         run: |
           echo "repository=$(echo "${{ vars.IMAGE_NAME }}" | tr '[A-Z]' '[a-z]')" >> $GITHUB_OUTPUT
 
-      - uses: peter-evans/dockerhub-description@v5
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v5
         if: ${{ !env.ACT && vars.DOCKERHUB_USER_USERNAME != '' && env.dockerhub_user_token != '' }}
         with:
           username: ${{ vars.DOCKERHUB_USER_USERNAME }}

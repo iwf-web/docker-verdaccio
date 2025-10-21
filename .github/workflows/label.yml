@@ -4,9 +4,11 @@ on: [pull_request]
 
 jobs:
   label:
+    name: Label PR
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/labeler@v6
+      - name: Label PR
+        uses: actions/labeler@v6
         with:
           sync-labels: true
