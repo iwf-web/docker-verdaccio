@@ -9,7 +9,7 @@ body:
         Before requesting a new feature, make sure your version is up-to-date.
 
         > [!IMPORTANT]
-        > For initial ideas it's preferable to use [discussions](https://github.com/iwf-web/docker-image-version-matrix-action/discussions).
+        > For initial ideas it's preferable to use [discussions](https://github.com/iwf-web/docker-verdaccio/discussions).
 
         As a maintainers we prefer to have only actionable issues in the backlog, with clear definition of done,
         that's why Discussions are the best way to start. When scope of the request is established, then actual issue can be created.
@@ -25,7 +25,7 @@ body:
     id: discussion-reference
     attributes:
       label: Link to Discussion where feature request was formed
-      placeholder: https://github.com/iwf-web/docker-image-version-matrix-action/discussions/<ID>
+      placeholder: https://github.com/iwf-web/docker-verdaccio/discussions/<ID>
     validations:
       required: false
   - type: checkboxes
@@ -37,5 +37,5 @@ body:
           required: false
         - label:
             I am familiar with ["Feature or
-            bug?"](https://github.com/iwf-web/docker-image-version-matrix-action/blob/master/.github/feature-or-bug.md)
+            bug?"](https://github.com/iwf-web/docker-verdaccio/blob/master/.github/feature-or-bug.md)
           required: false

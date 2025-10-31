@@ -46,5 +46,5 @@ body:
           required: false
         - label:
             I am familiar with ["Feature or
-            bug?"](https://github.com/iwf-web/docker-image-version-matrix-action/blob/master/.github/feature-or-bug.md)
+            bug?"](https://github.com/iwf-web/docker-verdaccio/blob/master/.github/feature-or-bug.md)
           required: false
