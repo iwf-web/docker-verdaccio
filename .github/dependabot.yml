@@ -7,13 +7,17 @@
 
 version: 2
 updates:
-  # GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    target-branch: "main"
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: main
     labels:
       - "dependabot :robot:"
     schedule:
-      interval: "weekly" # on monday
-      time: "08:00"
-      timezone: "Europe/Zurich"
+      interval: weekly # on monday
+      time: 08:00
+      timezone: Europe/Zurich
+
+  - package-ecosystem: devcontainers
+    directory: /
+    schedule:
+      interval: weekly
