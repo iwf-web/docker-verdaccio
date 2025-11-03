@@ -14,7 +14,7 @@ services:
       AWS_ACCESS_KEY_ID: minio
       AWS_SECRET_ACCESS_KEY: minio123
     volumes:
-      - ./src/config.yaml:/verdaccio/conf/config.yaml
+      - ${LOCAL_WORKSPACE_FOLDER:-.}/src/config.yaml:/verdaccio/conf/config.yaml
     ports:
       - 4873:4873
     depends_on:

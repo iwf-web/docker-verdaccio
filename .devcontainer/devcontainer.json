@@ -7,6 +7,9 @@
   "image": "mcr.microsoft.com/devcontainers/base:debian",
 
   "remoteEnv": {
+    // https://github.com/devcontainers/features/tree/main/src/docker-outside-of-docker
+    // Following settings are required for Bind Mounts to work with Docker outside of Docker
+    "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
     "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
   },
 
