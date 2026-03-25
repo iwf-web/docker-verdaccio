@@ -130,7 +130,7 @@ hadolint src/Dockerfile
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and [CONTRIBUTING.md](CONTRIBUTING.md) for the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md][contributing] for details on our code of conduct and the process for submitting pull requests.
 
 ## Versioning
 
@@ -138,11 +138,21 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-All the authors can be seen in the [AUTHORS.md](AUTHORS.md) file.
+### Special thanks for all the people who had helped this project so far
 
-Contributors can be seen in the [CONTRIBUTORS.md](CONTRIBUTORS.md) file.
+- **Manuele** - [D3strukt0r](https://github.com/D3strukt0r)
 
 See also the full list of [contributors][gh-contributors] who participated in this project.
+
+### I would like to join this list. How can I help the project?
+
+We're currently looking for contributions for the following:
+
+- [ ] Bug fixes
+- [ ] Translations
+- [ ] etc...
+
+For more information, please refer to our [CONTRIBUTING.md][contributing] guide.
 
 ## License
 
@@ -150,8 +160,9 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 ## Acknowledgments
 
-A list of used libraries and code with their licenses can be seen in the [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) file.
+This project currently uses no third-party libraries or copied code.
 
 [license]: https://github.com/iwf-web/docker-verdaccio/blob/main/LICENSE.txt
 [gh-tags]: https://github.com/iwf-web/docker-verdaccio/tags
 [gh-contributors]: https://github.com/iwf-web/docker-verdaccio/contributors
+[contributing]: https://github.com/iwf-web/.github/blob/main/CONTRIBUTING.md
