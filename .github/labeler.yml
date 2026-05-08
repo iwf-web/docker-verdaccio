@@ -7,7 +7,7 @@ feature:
 
 release:
   - all:
-    - base-branch: 'master'
+    - base-branch: 'main'
     - head-branch: ['^release', 'release']
 
 docker:

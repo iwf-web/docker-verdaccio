@@ -2,9 +2,9 @@
 
 This is a Docker image for [Verdaccio](https://verdaccio.org/) (a lightweight private npm proxy registry) with some plugins required for [IWF](https://iwf.ch).
 
-Project
-
-[![License](https://img.shields.io/github/license/iwf-web/docker-verdaccio)][license]
+[![License](https://img.shields.io/github/license/iwf-web/docker-verdaccio?label=License)](LICENSE.txt)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa)][code-of-conduct]
+[![Docker Pulls](https://img.shields.io/docker/pulls/iwfwebsolutions/verdaccio)](https://hub.docker.com/r/iwfwebsolutions/verdaccio)
 
 ## Getting Started
 
@@ -132,9 +132,11 @@ hadolint src/Dockerfile
 
 Please read [CONTRIBUTING.md][contributing] for details on our code of conduct and the process for submitting pull requests.
 
+This project uses [Conventional Commits](https://www.conventionalcommits.org/).
+
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository][gh-tags].
+We use [SemVer](http://semver.org/) for versioning. For available versions, see the [tags on this repository][gh-tags].
 
 ## Authors
 
@@ -156,13 +158,13 @@ For more information, please refer to our [CONTRIBUTING.md][contributing] guide.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details
+This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 ## Acknowledgments
 
 This project currently uses no third-party libraries or copied code.
 
-[license]: https://github.com/iwf-web/docker-verdaccio/blob/main/LICENSE.txt
 [gh-tags]: https://github.com/iwf-web/docker-verdaccio/tags
 [gh-contributors]: https://github.com/iwf-web/docker-verdaccio/contributors
 [contributing]: https://github.com/iwf-web/.github/blob/main/CONTRIBUTING.md
+[code-of-conduct]: https://github.com/iwf-web/.github/blob/main/CODE_OF_CONDUCT.md

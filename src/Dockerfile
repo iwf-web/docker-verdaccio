@@ -1,7 +1,7 @@
 # https://verdaccio.org/docs/docker/#creating-your-own-dockerfile-using-verdaccioverdacciotag-as-base
 # https://github.com/verdaccio/verdaccio/tree/master/docker-examples/v6/plugins/docker-build-install-plugin
 
-ARG VERDACCIO_VERSION=6
+ARG VERDACCIO_VERSION=6.5
 
 # Docker multi-stage build - https://docs.docker.com/develop/develop-images/multistage-build/
 FROM node:24 AS builder

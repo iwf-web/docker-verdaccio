@@ -1,10 +1,10 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for AI coding agents working in this repository.
 
 ## Project Overview
 
-This is a Docker image for Verdaccio (a lightweight private npm proxy registry) with plugins required for IWF. It's designed to work with GitLab authentication and AWS S3 storage.
+Docker image for Verdaccio (a lightweight private npm proxy registry) with plugins required for IWF. Designed to work with GitLab authentication and AWS S3 storage.
 
 ## Architecture
 
