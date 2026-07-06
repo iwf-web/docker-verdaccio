@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: Build and push Docker image
 
 on:
   #schedule:
@@ -10,7 +10,7 @@ on:
   #  tags: [ '*.*.*' ]
   #  # and only if one of these files changed.
   #  paths:
-  #    - .github/workflows/ci.yml
+  #    - .github/workflows/docker.yml
   #    - 'src/**'
   #pull_request:
   #  branches: [ main ]
@@ -51,14 +51,12 @@ jobs:
       #- run: echo "Matrix - Project ${{ matrix.project }}, Config ${{ matrix.config }}"
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       # Install the cosign tool except on PR
       - name: Install Cosign
-        uses: sigstore/cosign-installer@v3
+        uses: sigstore/cosign-installer@v4.1.2
         if: github.event_name != 'pull_request'
-        with:
-          cosign-release: 'v2.2.4'
 
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
@@ -75,6 +73,19 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Extract metadata (tags, labels) for Docker
+      # Discover the newest verdaccio/verdaccio release (e.g. 6.7.4). The script
+      # only tells us *which* version is latest; metadata-action below expands
+      # it into the 6.7.4 / 6.7 / 6 / latest tag cascade.
+      - name: Resolve base image version
+        id: base
+        run: |
+          set -euo pipefail
+          version=$(.github/scripts/docker-hub-tags.sh --latest verdaccio/verdaccio | jq -r '.version')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      # Extract metadata (tags, labels, annotations) for Docker. Feeding the
+      # resolved base version as the semver source produces the rolling
+      # major/minor/patch tags plus :latest, all pinned to that version.
       - name: Extract Docker metadata
         uses: docker/metadata-action@v6
         id: meta
@@ -82,6 +93,10 @@ jobs:
           images: ${{ vars.IMAGE_NAME }}
           flavor: |
             latest=true
+          tags: |
+            type=semver,pattern={{version}},value=${{ steps.base.outputs.version }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ steps.base.outputs.version }}
+            type=semver,pattern={{major}},value=${{ steps.base.outputs.version }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       - name: Build and Push Docker image
@@ -91,6 +106,8 @@ jobs:
           context: ./src
           platforms: linux/amd64,linux/arm64 # same as base image
           pull: true
+          build-args: |
+            VERDACCIO_VERSION=${{ steps.base.outputs.version }}
           #push: ${{ github.event_name != 'pull_request' && vars.DOCKERHUB_USERNAME != '' && env.dockerhub_token != '' }}
           sbom: true # provenance is already at =max by default on public repos
           tags: ${{ steps.meta.outputs.tags }}
