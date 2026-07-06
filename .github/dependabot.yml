@@ -51,6 +51,8 @@ updates:
       day: monday
       time: '09:30'
       timezone: Europe/Zurich
+    ignore:
+      - dependency-name: "node"
     groups:
       docker:
         patterns:

@@ -1,19 +1,19 @@
 name: Build and push Docker image
 
 on:
-  #schedule:
-  #  - cron: '21 1 * * *'
-  #push:
-  #  # Publish latest or develop branch as prerelease.
-  #  branches: [ main, develop ]
-  #  # Publish semver tags as releases.
-  #  tags: [ '*.*.*' ]
-  #  # and only if one of these files changed.
-  #  paths:
-  #    - .github/workflows/docker.yml
-  #    - 'src/**'
-  #pull_request:
-  #  branches: [ main ]
+  schedule:
+    - cron: '30 9 * * 1' # Mondays 09:30 UTC
+  push:
+    # Publish latest or develop branch as prerelease.
+    branches: [ main ]
+    # Publish semver tags as releases.
+    tags: [ '*.*.*' ]
+    # and only if one of these files changed.
+    paths:
+      - .github/workflows/docker.yml
+      - 'src/**'
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -108,7 +108,7 @@ jobs:
           pull: true
           build-args: |
             VERDACCIO_VERSION=${{ steps.base.outputs.version }}
-          #push: ${{ github.event_name != 'pull_request' && vars.DOCKERHUB_USERNAME != '' && env.dockerhub_token != '' }}
+          push: ${{ github.event_name != 'pull_request' && vars.DOCKERHUB_USERNAME != '' && env.dockerhub_token != '' }}
           sbom: true # provenance is already at =max by default on public repos
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -121,12 +121,12 @@ jobs:
       # repository is public to avoid leaking data. If you would like to publish
       # transparency data even for private images, pass --force to cosign below.
       # https://github.com/sigstore/cosign
-      #- name: Sign the published Docker image
-      #  if: ${{ github.event_name != 'pull_request' && vars.DOCKERHUB_USERNAME != '' && env.dockerhub_token != '' }}
-      #  env:
-      #    # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-      #    TAGS: ${{ steps.meta.outputs.tags }}
-      #    DIGEST: ${{ steps.build-and-push.outputs.digest }}
-      #  # This step uses the identity token to provision an ephemeral certificate
-      #  # against the sigstore community Fulcio instance.
-      #  run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' && vars.DOCKERHUB_USERNAME != '' && env.dockerhub_token != '' }}
+        env:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          TAGS: ${{ steps.meta.outputs.tags }}
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
