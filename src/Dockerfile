@@ -4,7 +4,7 @@
 ARG VERDACCIO_VERSION=6.5
 
 # Docker multi-stage build - https://docs.docker.com/develop/develop-images/multistage-build/
-FROM node:24 AS builder
+FROM node:26 AS builder
 #ARG BUILDKIT_SBOM_SCAN_STAGE=true
 
 # npm docs
